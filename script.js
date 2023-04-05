@@ -8,7 +8,7 @@ const scoreHighest = document.querySelector(".highscore");
 
 
 let randomNumber = Math.floor(Math.random() * 100) + 1;
-console.log(randomNumber);
+
 
 guessNumber.addEventListener("input" , () =>{
     if (guessNumber.value > 100) {
@@ -108,7 +108,7 @@ function resetGame (){
 
 
     randomNumber = Math.floor(Math.random() * 100) + 1;
-    console.log(randomNumber);
+    
 
    
 
