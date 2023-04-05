@@ -10,18 +10,43 @@ const scoreHighest = document.querySelector(".highscore");
 let randomNumber = Math.floor(Math.random() * 100) + 1;
 console.log(randomNumber);
 
+guessNumber.addEventListener("input" , () =>{
+    if (guessNumber.value > 100) {
+        guessButton = 100 ;
+        guessNumber.value = "100";
+    }
+
+    if (guessNumber.value < 0) {
+        guessButton = 0;
+        guessNumber.value = "0";
+    }
+
+    const guess = parseFloat(guessNumber.value);
+    if (isNaN(guess)) {
+      const falseResult = document.createElement("span");
+      falseResult.classList.add("message");
+      falseResult.textContent = "⛔ No number!";
+      startGuessing.textContent = "⛔ No number!";
+    }
+
+});
 
 checkButton.addEventListener("click", () => {
     guessGame ();
-    numTries++;
 })
 
-let numTries = 1 ;
-let highScore = localStorage.getItem("highScore") || Infinity;
+
+let numTries = 0;
+let highscore = null;
+
+
+
 
 numberResult.addEventListener("change",guessGame);
 
 function guessGame () {
+
+    numTries++;
 
     if (+guessNumber.value > randomNumber) {
         const tooHightAnswer = document.createElement("span");
@@ -47,27 +72,27 @@ function guessGame () {
         rightAnswer.classList.add("message");
         rightAnswer.textContent = "🎉 Correct number!";
         startGuessing.textContent = "🎉 Correct number!";
+        
         scoreResult.textContent = numTries;
-        scoreHighest.textContent =  highScore;
 
-        if (numTries < highScore) {
-            localStorage.setItem("highScore", numTries);
-            scoreHighest.textContent = numTries;
-            highScore = numTries;
+        if (highscore === null || numTries < highscore) {
+            highscore = numTries; 
+            scoreHighest.textContent = highscore; 
           }
+      
+        
     }
+
+  
 
     let guessButton = parseFloat(guessNumber.value);
 
-    if (guessNumber.value > 100) {
-        guessButton = 100 ;
-        guessNumber.value = "100";
-    }
+    
 }
 
 againButton.addEventListener("click", () => {
     resetGame ();
-    
+
 })
 
 function resetGame (){
@@ -77,12 +102,14 @@ function resetGame (){
     numberResult.textContent = "?";
     startGuessing.textContent = "Start guessing...";
     scoreResult.textContent = "0";
-    numTries = 1 ;
+    numTries = 0 ;
 
 
 
 
     randomNumber = Math.floor(Math.random() * 100) + 1;
     console.log(randomNumber);
+
+   
 
 }
